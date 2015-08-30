@@ -11,5 +11,8 @@ spec :: Spec
 spec =  do
     describe "Tag" $ do
         it "can create a Tag from a string" $
-            (show (MakeTag "Foo")) `shouldBe` "MakeTag \"Foo\""
+            (show (Context "Foo")) `shouldBe` "Context {name = \"Foo\"}"
 
+    describe "TodoEntry" $ do
+        it "can create a TodoEntry from a string" $
+            (TodoEntry "this is a line #CURRENT @MORNING") `shouldBe` (TodoEntry "this is a line #CURRENT @MORNING") 

@@ -1,2 +1,6 @@
-#HASKTODO
-	Create initial types for Tag, and TodoEntry
+,TODO
+	#HASKTODO
+		Write initial parser for single Todo line
+,DONE
+	2015-08-30T01:37-0700 	Create initial types for Tag, and TodoEntry
+,END
