@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dannyob/hasktodo.svg?branch=master)](https://travis-ci.org/dannyob/hasktodo)
+
 # HaskTodo
 
 I've been using a homegrown todo.txt handler since 2010 to give me a rough
