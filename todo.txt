@@ -1,0 +1,2 @@
+#HASKTODO
+	Create types for Tag, and TodoEntry
