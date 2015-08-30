@@ -9,5 +9,5 @@ main :: IO ()
 main = hspec $ do
     describe "Tag" $ do
         it "can create a Tag from a string" $
-            MakeTag "Foo" `shouldBe` (MakeTag "Foo")
+            (show (MakeTag "Foo")) `shouldBe` "MakeTag \"Foo\""
 
