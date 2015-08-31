@@ -1,11 +1,17 @@
+{-# LANGUAGE OverloadedStrings #-}
 module ToDoSpec (main, spec) where 
 
 import Test.Hspec
-import ToDo 
+import ToDo
+import Data.Text
+import Data.String
 
 main :: IO ()
 
 main = hspec spec
+
+sampleTodoLine = "    go buy a snark gun"
+sampleTodoLineWithTags = "    go buy a snark gun @SHOPPING #SAFARI" 
 
 spec :: Spec
 spec =  do
@@ -16,3 +22,8 @@ spec =  do
     describe "TodoEntry" $ do
         it "can create a TodoEntry from a string" $
             (TodoEntry "this is a line #CURRENT @MORNING") `shouldBe` (TodoEntry "this is a line #CURRENT @MORNING") 
+
+    describe "ParseLine" $ do
+        it "strips spaces and tags away" $
+            (getText (parseLineIntoTodo sampleTodoLine)) `shouldBe` "go buy a snark gun"
+        
