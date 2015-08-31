@@ -3,7 +3,7 @@ version:             0.1.0.0
 synopsis:            A productivity tool based on todo.txt outlines.
 description:         Please see README.md
 homepage:            http://github.com/dannyob/hasktodo#readme
-license:             GPL3
+license:             GPL-3
 license-file:        LICENSE
 author:              Danny O'Brien
 maintainer:          danny@spesh.com
