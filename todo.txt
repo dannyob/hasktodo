@@ -1,9 +1,10 @@
 ,TODO
 	#HASKTODO
-		Write initial parser for single Todo line #INITIALTODOLINEPARSER
-		Write initial tag parser
+		Count identation as part of parsing
 		Write initial parser for todo.txt
 ,DONE
 	2015-08-30T01:37-0700 	Create initial types for Tag, and TodoEntry
 	2015-08-30T19:31-0700 	Strip away whitespace #INITIALTODOLINEPARSER
+	2015-09-06T00:53-0700 	Write initial parser for single Todo line #INITIALTODOLINEPARSER
+	2015-09-06T00:53-0700 	Write initial tag parser
 ,END
