@@ -17,13 +17,9 @@ spec :: Spec
 spec =  do
     describe "Tag" $ do
         it "can create a Tag from a string" $
-            (show (Context "Foo")) `shouldBe` "Context {name = \"Foo\"}"
+            (show (Project "Foo")) `shouldBe` "Project {pName = \"Foo\"}"
 
     describe "TodoEntry" $ do
         it "can create a TodoEntry from a string" $
-            (TodoEntry "this is a line #CURRENT @MORNING") `shouldBe` (TodoEntry "this is a line #CURRENT @MORNING") 
+            (parseLine "this is a line #CURRENT @MORNING") `shouldBe` (parseLine "this is a line #CURRENT @MORNING") 
 
-    describe "ParseLine" $ do
-        it "strips spaces and tags away" $
-            (getText (parseLineIntoTodo sampleTodoLine)) `shouldBe` "go buy a snark gun"
-        
