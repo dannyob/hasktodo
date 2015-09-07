@@ -22,5 +22,3 @@ spec =  do
     describe "TodoEntry" $ do
         it "can create a TodoEntry from a string and preserve its contents" $
             (parseLine "this is a line #CURRENT @MORNING") `shouldBe` (parseLine "this is a line #CURRENT @MORNING") 
-
-        it "can create a TodoEntry with the "

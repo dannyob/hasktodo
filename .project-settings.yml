@@ -13,4 +13,5 @@ extra-packages: ''
 ghc-args: []
 excluded-modules:
 - Setup.hs
+- app/Main.hs
 - test/Spec.hs
