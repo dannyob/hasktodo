@@ -5,16 +5,15 @@ module ToDo (
     ,Recurrence
     ,TimeDate
     ,Line
-    ,getText
     ,parseLine
     ,makeTag
-    ,parseLineIntoTodo
         ) where
             
 import qualified Data.Text as T
 import qualified Data.Char as C
 import Data.Attoparsec.Text
 import Control.Applicative
+import Control.Monad.State
 import Data.Text
 
 type Recurrence = String 
@@ -26,7 +25,8 @@ data Tag =  Current
           | Repeat { interval :: Recurrence }
           | Ignore { until :: TimeDate }
           | Context { cName :: T.Text, cArgs :: T.Text } 
-          | Project { pName :: T.Text } deriving (Show, Eq)
+          | Project { pName :: T.Text } 
+          deriving (Show, Eq)
 
 data TodoEntry = TodoEntry {
                      originalText :: Text,
@@ -34,21 +34,16 @@ data TodoEntry = TodoEntry {
                      indent :: Int
                      } deriving (Show, Eq)
                      
-getText m = m.originalText
-
 makeTag x = Context { cName = x, cArgs = "" }
-
-data ParseElement = IndentCount Int | Description T.Text | PTag Tag deriving (Show)
 
 current = do
     string "@CURRENT"
-    return (PTag Current)
-    
-
+    return [Current]
+ 
 project = do 
     string "#"
     n <- takeWhile1 (inClass "A-Za-z_")
-    return (PTag Project {pName = n} )
+    return [Project {pName = n}]
 
 args = do
     string "("
@@ -56,44 +51,43 @@ args = do
     string ")"
     return a
     <|> return ""
-
+   
 tag = do
     string "@"
     n <- takeWhile1 (inClass "A-Za-z_")
     b <- args
-    return (PTag Context {cName = n, cArgs = b})
-
+    return [Context {cName = n, cArgs = b}]
 
 comment = do
     n <- takeWhile1 (not . inClass "@#")
-    return (Description n)
-
-
-myParser :: Parser ParseElement
-myParser = current <|> project <|> tag <|> comment
+    return []
 
 indentCount = do
     x <- takeTill (not . C.isSpace)
-    return (IndentCount (T.length x))
-    
+    return (T.length x)
 
-lineParser =  do
-    i <- indentCount
-    x <- many myParser
-    return (i : x)
+addTags :: [Tag] -> TodoEntry -> TodoEntry
+addTags a b = b { tags = a ++ tags b }
 
-parseLineIntoTodo l = case parseLineIntoTodo' l of
-    Left _ -> TodoEntry { originalText = "error", tags = [], indent =0}
-    Right x -> x
+addTag :: Tag -> TodoEntry -> TodoEntry
+addTag a b = b { tags = a : tags b }
 
-parseLineIntoTodo' l = 
-    case parsedLine of
-       Left e -> Left e
-       Right x -> Right (TodoEntry {originalText = l, tags = (Prelude.map mkTag (Prelude.filter isTag x)), indent = 0 })
-    where 
-        parsedLine = parseOnly lineParser l
-        isTag (PTag _)  = True
-        isTag _ = False
-        mkTag (PTag x) = x
-        
-parseLine = parseLineIntoTodo          
+storeIndent :: Int -> TodoEntry -> TodoEntry
+storeIndent a b = b { indent = a }
+
+parseLine l = parseOnly (runStateT parseLine' TodoEntry { indent = 0, originalText = l, tags = []}) l
+
+parseLine' :: StateT TodoEntry Parser ()
+parseLine' = do
+    i <- lift indentCount
+    (modify (storeIndent i))
+    many parseTags
+    pure ()
+
+parseTags :: StateT TodoEntry Parser ()
+parseTags = do
+    a <- (lift current  <|> lift project  <|> lift tag <|> lift comment)
+    case a of
+        [t] -> (modify (addTag t))
+        _ -> pure ()
+    pure ()

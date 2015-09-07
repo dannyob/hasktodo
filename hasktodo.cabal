@@ -19,6 +19,7 @@ library
   build-depends:       base >= 4.6 && < 5
                      , text
                      , attoparsec
+                     , mtl
   default-language:    Haskell2010
 
 executable htodo
@@ -28,6 +29,7 @@ executable htodo
   build-depends:       base
                      , hasktodo
                      , attoparsec
+                     , mtl
   default-language:    Haskell2010
 
 test-suite hasktodo-test
@@ -39,6 +41,7 @@ test-suite hasktodo-test
                      , hasktodo
                      , text
                      , attoparsec
+                     , mtl
   other-modules:       ToDoSpec
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
