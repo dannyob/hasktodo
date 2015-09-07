@@ -33,3 +33,6 @@ spec =  do
             
         it "can spot an Urgent tag" $
             (Data.List.find (== Urgent) $ tags $ parseLine "this is a @URGENT line") `shouldBe` Just Urgent
+            
+        it "can parse a Repeat tag" $
+            (Data.List.find (== Repeat { rInterval = "DAILY"}) $ tags $ parseLine "this is a @REPEAT(DAILY) line") `shouldBe` Just Repeat { rInterval = "DAILY"}

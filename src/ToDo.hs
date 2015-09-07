@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 module ToDo (
-     Tag(Current,Urgent,Repeat,Ignore,Context,Project)
+     Tag(Current,Urgent,Repeat,Ignore,Context,Project, rInterval)
     ,TodoEntry(TodoEntry,originalText,tags,indent)
     ,Recurrence
     ,TimeDate
